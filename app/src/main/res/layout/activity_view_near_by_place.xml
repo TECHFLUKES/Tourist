@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sisirkumarnanda.tourist.ViewNearByPlaceActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/myLocationPhoto"
+            android:src="@drawable/ic_image_black_24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/placeName"
+            android:text="Name Of Place"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/placeAddress"
+            android:text="Address Of Place"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/placeOpenHours"
+            android:text="Open now: "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:max="5"
+            android:id="@+id/ratingBar"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show This Place On Map"
+            android:id="@+id/buttonShowOnMap"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get Route From Your Location"
+            android:id="@+id/buttonViewRoute"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
