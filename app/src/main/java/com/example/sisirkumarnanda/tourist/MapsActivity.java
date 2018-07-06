@@ -82,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Now to request runtime permission
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkingLocationPermission();
+            Log.e("Hello", "Darling");
         }
 
         //Below code was for the recycler view
