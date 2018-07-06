@@ -1,6 +1,7 @@
 package com.example.sisirkumarnanda.tourist;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -10,10 +11,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
 import com.example.sisirkumarnanda.tourist.Helper.DirectionsJSONParser;
+import com.example.sisirkumarnanda.tourist.Model.MyRoutes;
+import com.example.sisirkumarnanda.tourist.Model.Step;
 import com.example.sisirkumarnanda.tourist.RemoteServices.MyGoogleAPIService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -31,9 +37,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.sufficientlysecure.htmltextview.HtmlAssetsImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +65,9 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
     Marker currentMarker;
     Polyline polyline;
     MyGoogleAPIService myGoogleAPIService;
+    Button showTextDirections;
+
+    MyRoutes myRoutes = null;
 
 
     @Override
@@ -67,6 +80,35 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
         mapFragment.getMapAsync(this);
 
         myGoogleAPIService = Common.myGoogleAPIServiceScalars();
+        showTextDirections = (Button)findViewById(R.id.buttonShowTextDirections);
+
+        showTextDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewDirectionsRouteActivity.this);
+                LayoutInflater inflater = LayoutInflater.from(ViewDirectionsRouteActivity.this);
+                View stepView = inflater.inflate(R.layout.show_direction_layout,null);
+                HtmlTextView htmlTextView = (HtmlTextView)stepView.findViewById(R.id.textRoutes);
+
+                if(myRoutes!=null){
+                    for (Step step:myRoutes.routes.get(0).legs.get(0).steps){
+                        StringBuilder stringBuilder = new StringBuilder(step.html_instructions);
+                        htmlTextView.setHtml(stringBuilder.toString(),new HtmlAssetsImageGetter(htmlTextView));
+                    }
+                }
+               builder.setView(stepView);
+               builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       dialog.dismiss();
+                   }
+               });
+               builder.show();
+
+
+
+            }
+        });
 
         myLocationRequest();
         myLocationCallback();
@@ -143,8 +185,14 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("response", "onResponse: " + response.body().toString());
+                        myRoutes = new Gson().fromJson(response.body().toString(),
+                                new TypeToken<MyRoutes>(){}.getType());
                         new ParserTask().execute(response.body().toString());
+
+
+                        if(myRoutes!=null){
+                            showTextDirections.setEnabled(true);
+                        }
                                             }
 
                     @Override
@@ -173,7 +221,7 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
                         .position(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()))
                         .title("Your Location")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
+                mMap.clear();
                 currentMarker = mMap.addMarker(markerOptions);
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude())));
@@ -195,15 +243,9 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
     }
 
     private class ParserTask extends AsyncTask<String,Integer,List<List<HashMap<String,String>>>> {
-        AlertDialog waitingDialog = new SpotsDialog(ViewDirectionsRouteActivity.this);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            waitingDialog.show();
-            waitingDialog.setMessage("Please wait....");
 
-        }
+
 
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(String... strings) {
@@ -228,6 +270,8 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
             PolylineOptions polylineOptions = null;
 
             for(List<HashMap<String,String>> path : lists){
+                polylineOptions = null;
+
                 points = new ArrayList();
                 polylineOptions = new PolylineOptions();
 
@@ -254,7 +298,7 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
                 Toast.makeText(ViewDirectionsRouteActivity.this, "Directions not found", Toast.LENGTH_SHORT).show();
             }
 
-            waitingDialog.dismiss();
+
 
         }
     }

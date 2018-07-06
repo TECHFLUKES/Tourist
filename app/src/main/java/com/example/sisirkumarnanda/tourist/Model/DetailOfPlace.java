@@ -11,6 +11,16 @@ public class DetailOfPlace {
 
     private String status;
 
+    private Results[] results;
+
+    public Results[] getResults() {
+        return results;
+    }
+
+    public void setResults(Results[] results) {
+        this.results = results;
+    }
+
     public Result getResult ()
     {
         return result;

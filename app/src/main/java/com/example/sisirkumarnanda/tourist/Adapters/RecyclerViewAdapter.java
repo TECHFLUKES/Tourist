@@ -2,6 +2,7 @@ package com.example.sisirkumarnanda.tourist.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sisirkumarnanda.tourist.Common;
 import com.example.sisirkumarnanda.tourist.MapsActivity;
 import com.example.sisirkumarnanda.tourist.R;
+import com.example.sisirkumarnanda.tourist.RemoteServices.MyGoogleAPIService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -24,10 +28,13 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     private ArrayList<String> items;
     private Context mContext;
     LayoutInflater inflater;
+    private ArrayList<String> photoReference;
+    Context mPicassoContext;
 
-    public RecyclerViewAdapter(Context mContext,ArrayList<String> items){
+    public RecyclerViewAdapter(Context mContext,ArrayList<String> items,ArrayList<String> photoReference){
         this.mContext = mContext;
         this.items = items;
+        this.photoReference = photoReference;
         inflater = LayoutInflater.from(this.mContext);
 
     }
@@ -41,21 +48,35 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.titleText.setText(items.get(position));
-        String check = items.get(position);
+        if(photoReference!=null&&items!=null){
 
-        if(check.equals("Market Place")){
-            holder.titleImage.setImageResource(R.drawable.market);
-        }else if(check.equals("Hospitals")){
-            holder.titleImage.setImageResource(R.drawable.hos);
-        }else if(check.equals("Hotels")){
-            holder.titleImage.setImageResource(R.drawable.hotels);
-        }else if(check.equals("Schools")){
-            holder.titleImage.setImageResource(R.drawable.schools);
-        }else{
-            holder.titleImage.setImageResource(R.drawable.res);
+
+
+            Picasso.Builder builder = new Picasso.Builder(mContext);
+            builder.listener(new Picasso.Listener()
+            {
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
+                {
+                    Toast.makeText(mContext, exception.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.build().load(getPhotoPlace(photoReference.get(position),500)).into(holder.titleImage);
+
+            holder.titleText.setText(items.get(position));
         }
 
+
+
+
+    }
+
+    private String getPhotoPlace(String photoReference,int maxWidth) {
+        StringBuilder photoUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/photo");
+        photoUrl.append("?maxwidth=" + maxWidth);
+        photoUrl.append("&photoreference=" + photoReference);
+        photoUrl.append("&key=AIzaSyAT2NHL3pzEluwdY5GfqyE3R8CGakn-Pbo");
+        return photoUrl.toString();
 
     }
 
@@ -72,32 +93,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             titleImage = itemView.findViewById(R.id.thumbnail);
             titleText = itemView.findViewById(R.id.title);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, titleText.getText().toString(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mContext, MapsActivity.class);
-                    if(titleText.getText().toString().equals("Market Place")){
-                        intent.putExtra("nearByLocation","market");
-                    }
-                    else if(titleText.getText().toString().equals("Hotels")){
-                        intent.putExtra("nearByLocation","hotel");
-                    }
-                    else if(titleText.getText().toString().equals("Hospitals")){
-                        intent.putExtra("nearByLocation","hospital");
-                    }
-                    else if(titleText.getText().toString().equals("Schools")){
-                        intent.putExtra("nearByLocation","school");
-                    }
-                    else if(titleText.getText().toString().equals("Restaurants")){
-                        intent.putExtra("nearByLocation","restaurant");
-                    }
 
-
-                    mContext.startActivity(intent);
-
-                }
-            });
 
         }
     }

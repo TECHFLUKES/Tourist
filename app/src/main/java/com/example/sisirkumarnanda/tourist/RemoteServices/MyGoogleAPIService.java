@@ -1,6 +1,7 @@
 package com.example.sisirkumarnanda.tourist.RemoteServices;
 
 import com.example.sisirkumarnanda.tourist.Model.DetailOfPlace;
+import com.example.sisirkumarnanda.tourist.Model.DetailsOfTopPlaces;
 import com.example.sisirkumarnanda.tourist.Model.MyPlaces;
 
 import retrofit2.Call;
@@ -18,6 +19,9 @@ public interface MyGoogleAPIService {
 
     @GET
     Call<DetailOfPlace> getDetailOfPlace(@Url String url);
+
+    @GET
+    Call<DetailsOfTopPlaces> getDetailsOfTopPlaces(@Url String url);
 
     @GET("maps/api/directions/json")
     Call<String> getDirections(@Query("origin") String origin,@Query("destination") String destination);

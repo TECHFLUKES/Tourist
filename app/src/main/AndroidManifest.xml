@@ -42,8 +42,10 @@
         <activity android:name=".ViewNearByPlaceActivity" />
         <activity
             android:name=".ViewDirectionsRouteActivity"
-            android:label="@string/title_activity_view_directions_route" />
-        <activity android:name=".TopPlacesActivity"></activity>
+            android:label="@string/title_activity_view_directions_route" ></activity>
+        <activity android:name=".TopPlacesActivity">
+
+        </activity>
     </application>
 
 </manifest>

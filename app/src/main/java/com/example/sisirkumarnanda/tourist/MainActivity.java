@@ -22,20 +22,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //resturants hotels schools hospitals market
-        recyclerView = (RecyclerView)findViewById(R.id.myRecyclerView);
-        items = new ArrayList<String>();
+//        recyclerView = (RecyclerView)findViewById(R.id.myRecyclerView);
+//        items = new ArrayList<String>();
+//
+//        items.add("Market Place");
+//        items.add("Hospitals");
+//        items.add("Hotels");
+//        items.add("Schools");
+//        items.add("Restaurants");
 
-        items.add("Market Place");
-        items.add("Hospitals");
-        items.add("Hotels");
-        items.add("Schools");
-        items.add("Restaurants");
-
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this,items);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(recyclerViewAdapter);
+//        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this,items);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(recyclerViewAdapter);
 
 
 
