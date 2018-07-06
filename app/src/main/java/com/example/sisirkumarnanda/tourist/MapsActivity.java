@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     MyGoogleAPIService myGoogleAPIService;
     MyPlaces currentPlace;
 
-    //Here we get the new location
+    //Here we get the new location o
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationCallback locationCallback;
     private LocationRequest mLocationRequest;
