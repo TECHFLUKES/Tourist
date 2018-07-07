@@ -146,11 +146,11 @@ public class MemoryActivity extends FragmentActivity implements OnMapReadyCallba
                         submit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(!TextUtils.isEmpty(details.getText())||!(filePath==null))
+                                if(!TextUtils.isEmpty(details.getText()))
                                 {
                                     progressDialog.setMessage("Loading..");
                                     final DatabaseReference databaseReference = firebaseDatabase.getReference().child("Users").
-                                            child(mAuth.getCurrentUser().getUid()).child("travelDiaries");
+                                            child(mAuth.getCurrentUser().getUid()).child("traveldiaries");
                                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {

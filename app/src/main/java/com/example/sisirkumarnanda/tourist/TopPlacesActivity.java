@@ -66,9 +66,11 @@ public class TopPlacesActivity extends AppCompatActivity {
             case "fortCard":
                 query = "fort";
                 break;
-                default:
+            case "placeofintrest":
                     query = "place of intrest";
                     break;
+            default:
+                break;
 
 
         }

@@ -96,7 +96,10 @@ public class MainActivity extends AppCompatActivity
         topPlacesCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,TopPlacesActivity.class));
+                Intent intent = new Intent(MainActivity.this,TopPlacesActivity.class);
+                intent.putExtra("discover","placeofintrest");
+
+                startActivity(intent);
             }
         });
         diaryCard.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +174,10 @@ public class MainActivity extends AppCompatActivity
 
     private void methodLogout(){
         mAuth.signOut();
+        Intent intent = new Intent(getApplicationContext(),UserLogin.class);
+        startActivity(intent);
+        finish();
+
     }
 
 
