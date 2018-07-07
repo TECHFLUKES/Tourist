@@ -41,15 +41,17 @@
         <activity android:name=".ViewTopPlaceDetailsActivity" />
         <activity android:name=".ServicesActivity"></activity>
         <activity android:name=".DiscoverActivity">
+
+        </activity>
+        <activity
+            android:name=".MemoryActivity"
+            android:label="@string/title_activity_memory">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MemoryActivity"
-            android:label="@string/title_activity_memory"></activity>
     </application>
 
 </manifest>

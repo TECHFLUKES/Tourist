@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="Enter a description about the place"
+        android:id="@+id/saveEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/saveEditText">
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Upload Photos"
+        android:id="@+id/uploadPhotos"
+
+         />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/submitButton"
+
+            />
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
