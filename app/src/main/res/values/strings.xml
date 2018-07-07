@@ -2,4 +2,6 @@
     <string name="app_name">Tourist</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_view_directions_route">Map</string>
+    <string name="title_activity_view_directions_top_places">Map</string>
+    <string name="title_activity_memory">Map</string>
 </resources>

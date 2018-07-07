@@ -14,6 +14,7 @@ public class Common {
     private static String GOOGLE_API_URL = "https://maps.googleapis.com/";
 
     public static Results currentResult;
+    public static Results[] currentTopPlaceResult;
 
     public static MyGoogleAPIService myGoogleAPIService(){
         return RetroClient.getClient(GOOGLE_API_URL).create(MyGoogleAPIService.class);

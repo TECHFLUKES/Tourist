@@ -14,11 +14,17 @@ import android.widget.Toast;
 
 import com.example.sisirkumarnanda.tourist.Common;
 import com.example.sisirkumarnanda.tourist.MapsActivity;
+import com.example.sisirkumarnanda.tourist.Model.DetailOfPlace;
 import com.example.sisirkumarnanda.tourist.R;
 import com.example.sisirkumarnanda.tourist.RemoteServices.MyGoogleAPIService;
+import com.example.sisirkumarnanda.tourist.ViewTopPlaceDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by SISIR KUMAR NANDA on 02-07-2018.
@@ -47,7 +53,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, final int position) {
         if(photoReference!=null&&items!=null){
 
 
@@ -58,12 +64,43 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
                 @Override
                 public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
                 {
-                    Toast.makeText(mContext, exception.toString(), Toast.LENGTH_SHORT).show();
+                    exception.printStackTrace();
                 }
             });
-            builder.build().load(getPhotoPlace(photoReference.get(position),500)).into(holder.titleImage);
+            builder.build().load(getPhotoPlace(photoReference.get(position),400)).into(holder.titleImage);
 
             holder.titleText.setText(items.get(position));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     Intent intent = new Intent(mContext, ViewTopPlaceDetailsActivity.class);
+                    intent.putExtra("rating",Common.currentTopPlaceResult[position].getRating());
+                    intent.putExtra("name",items.get(position));
+
+
+                    Toast.makeText(mContext, Common.currentTopPlaceResult[position].getName(), Toast.LENGTH_SHORT).show();
+
+
+                    intent.putExtra("place_id",Common.currentTopPlaceResult[position].getPlace_id());
+
+                    intent.putExtra("photoAddress",getPhotoPlace(photoReference.get(position),500));
+                    if(Common.currentTopPlaceResult[position].getOpening_hours()!=null) {
+                        intent.putExtra("opening_hours", Common.currentTopPlaceResult[position].getOpening_hours().getOpen_now());
+                    }else{
+                        intent.putExtra("opening_hours", "Not available");
+                    }
+
+                    Common.currentResult = Common.currentTopPlaceResult[position];
+
+                    mContext.startActivity(intent);
+
+
+
+                }
+            });
+
+
         }
 
 
@@ -95,7 +132,10 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
 
 
+
+
         }
+
     }
 
 

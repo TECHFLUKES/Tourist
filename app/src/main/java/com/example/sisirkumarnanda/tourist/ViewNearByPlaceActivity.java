@@ -39,6 +39,8 @@ public class ViewNearByPlaceActivity extends AppCompatActivity {
 
         initComponents();
 
+        
+
         placeAddress.setText("");
         placeName.setText("");
         oHours.setText("");

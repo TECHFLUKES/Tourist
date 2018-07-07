@@ -1,5 +1,6 @@
 package com.example.sisirkumarnanda.tourist;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,6 +27,9 @@ public class TopPlacesActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayList<String> photoReference;
     MyGoogleAPIService myGoogleAPIService;
+    DetailsOfTopPlaces detailsOfTopPlaces;
+
+
 
 
 
@@ -39,19 +43,57 @@ public class TopPlacesActivity extends AppCompatActivity {
         photoReference = new ArrayList<String>();
         myGoogleAPIService = Common.myGoogleAPIService();
 
-        myGoogleAPIService.getDetailsOfTopPlaces(getStateUrl()).enqueue(new Callback<DetailsOfTopPlaces>() {
+        Intent thisActivityIntent = getIntent();
+        String category = thisActivityIntent.getExtras().getString("discover");
+        String query = "";
+
+        switch(category){
+            case "palaceCard":
+                query = "palace";
+                break;
+            case "wildLifeCard":
+                query = "wildlife";
+                break;
+            case "templeCard":
+                query = "temple";
+                break;
+            case "museumCard":
+                query = "museum";
+                break;
+            case "lakeCard":
+                query = "lake";
+                break;
+            case "fortCard":
+                query = "fort";
+                break;
+                default:
+                    query = "place of intrest";
+                    break;
+
+
+        }
+
+        myGoogleAPIService.getDetailsOfTopPlaces(getStateUrl(query)).enqueue(new Callback<DetailsOfTopPlaces>() {
             @Override
             public void onResponse(Call<DetailsOfTopPlaces> call, Response<DetailsOfTopPlaces> response) {
+                detailsOfTopPlaces = response.body();
+
 
                 for(int i = 0;i<response.body().getResults().length;i++){
                     items.add(response.body().getResults()[i].getName());
 
-                    for(int j = 0;j<response.body().getResults()[i].getPhotos().length;j++){
-                        photoReference.add(response.body().getResults()[i].getPhotos()[j].getPhoto_reference());
 
+
+                        for (int j = 0; j < response.body().getResults()[i].getPhotos().length; j++) {
+                            photoReference.add(response.body().getResults()[i].getPhotos()[j].getPhoto_reference());
+
+                        }
                     }
 
-                }
+
+
+                Common.currentTopPlaceResult = detailsOfTopPlaces.getResults();
+
 
 
 
@@ -64,29 +106,25 @@ public class TopPlacesActivity extends AppCompatActivity {
 
             }
 
+
+
             @Override
             public void onFailure(Call<DetailsOfTopPlaces> call, Throwable t) {
                 Toast.makeText(TopPlacesActivity.this, "Could not fetch data", Toast.LENGTH_SHORT).show();
 
             }
         });
-
-
-        //Log.d(TAG, "onCreate photo: " + photoReference);
-
-
-
-
-
-
-
-
     }
 
 
 
-    private String getStateUrl(){
-        StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/textsearch/json?query=rajasthan+point of interest&language=en");
+
+
+    private String getStateUrl(String category){
+
+        StringBuilder url = new StringBuilder("https://maps.googleapis.com/maps/api/place/textsearch/json?query=rajasthan");
+        url.append("+"+category);
+        url.append("&language=en");
         url.append("&key=" + getResources().getString(R.string.browser_key));
         return url.toString();
     }
