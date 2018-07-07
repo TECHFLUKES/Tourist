@@ -1,12 +1,16 @@
 package com.example.sisirkumarnanda.tourist;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -74,6 +78,7 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_directions_route);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -122,48 +127,68 @@ public class ViewDirectionsRouteActivity extends FragmentActivity implements OnM
     }
 
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        // Check if enabled and if not send user to the GPS settings
+        if (!enabled) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+            finish();
+        }else{
+            mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                lastLocation = location;
+            mMap.getUiSettings().setZoomControlsEnabled(true);
 
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()))
-                        .title("Your Location")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-                currentMarker = mMap.addMarker(markerOptions);
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude())));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-
-                LatLng destinationLatLung = new LatLng(Double.parseDouble(Common.currentResult.getGeometry().getLocation().getLat()),
-                        Double.parseDouble(Common.currentResult.getGeometry().getLocation().getLng()));
-
-
-                mMap.addMarker( new MarkerOptions()
-                        .position(destinationLatLung)
-                        .title(Common.currentResult.getName())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-
-
-                findPath(lastLocation,Common.currentResult.getGeometry().getLocation());
-
-
-
-
-
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
             }
-        });
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    lastLocation = location;
+
+
+
+                    Log.d("bye", "onSuccess: hi");
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
+                            .title("Your Location")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+
+                    currentMarker = mMap.addMarker(markerOptions);
+
+
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude())));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+
+                    LatLng destinationLatLung = new LatLng(Double.parseDouble(Common.currentResult.getGeometry().getLocation().getLat()),
+                            Double.parseDouble(Common.currentResult.getGeometry().getLocation().getLng()));
+
+
+                    mMap.addMarker( new MarkerOptions()
+                            .position(destinationLatLung)
+                            .title(Common.currentResult.getName())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+
+
+                    findPath(lastLocation,Common.currentResult.getGeometry().getLocation());
+
+
+
+
+
+                }
+
+
+            });
+        }
+
 
 
     }

@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?android:attr/actionBarSize"
-    android:background="@drawable/bg"
+    android:background="@color/colorPrimary"
+
     tools:context="com.example.sisirkumarnanda.tourist.DiscoverActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:weightSum="12"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+
+        >
 
         <GridLayout
             android:id="@+id/mainGrid"
@@ -20,11 +23,12 @@
             android:rowCount="3"
             android:alignmentMode="alignMargins"
             android:columnOrderPreserved="false"
-            android:layout_weight="4"
+
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:padding="14dp"
             android:layout_marginTop="15dp"
+
             >
 
             <!-- Row 1 -->

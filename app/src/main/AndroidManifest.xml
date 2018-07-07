@@ -32,26 +32,30 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity android:name=".ViewNearByPlaceActivity" />
         <activity
             android:name=".ViewDirectionsRouteActivity"
             android:label="@string/title_activity_view_directions_route" />
         <activity android:name=".TopPlacesActivity" />
         <activity android:name=".ViewTopPlaceDetailsActivity" />
-        <activity android:name=".ServicesActivity"></activity>
-        <activity android:name=".DiscoverActivity">
-
-        </activity>
+        <activity android:name=".ServicesActivity" />
+        <activity android:name=".DiscoverActivity"></activity>
+        <activity android:name=".Register" />
         <activity
-            android:name=".MemoryActivity"
-            android:label="@string/title_activity_memory">
+            android:name=".ShowRoute"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".UserLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MemoryActivity"
+            android:label="@string/title_activity_memory"></activity>
+        <activity android:name=".AboutUsActivity"></activity>
     </application>
 
 </manifest>

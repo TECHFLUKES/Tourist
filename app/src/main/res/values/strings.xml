@@ -10,8 +10,8 @@
         <item>Work</item>
         <item>Other</item>
     </string-array>
-=======
+    =======
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
->>>>>>> Stashed changes
+    >>>>>>> Stashed changes
 </resources>

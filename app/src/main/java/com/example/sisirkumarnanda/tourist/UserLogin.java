@@ -31,7 +31,7 @@ public class UserLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser()!=null)
         {
-            Intent intent = new Intent(UserLogin.this,MapsActivity.class
+            Intent intent = new Intent(UserLogin.this,MainActivity.class
             );
             startActivity(intent);
             finish();
@@ -72,7 +72,7 @@ public class UserLogin extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     progressDialog.dismiss();
-                    Intent intent = new Intent(UserLogin.this,MapsActivity.class);
+                    Intent intent = new Intent(UserLogin.this,MainActivity.class);
                     startActivity(intent);
                     finish();
 

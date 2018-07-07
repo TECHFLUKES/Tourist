@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity
     private Toolbar mToolbar;
     private CircleImageView NavProfileImage;
     private TextView NavProfileUserName;
+    CardView discoverCard,serviceCard,aboutusCard,nearByCard,topPlacesCard,diaryCard;
+    FirebaseAuth mAuth;
 
     String currentUserID;
 
@@ -62,6 +65,48 @@ public class MainActivity extends AppCompatActivity
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
         NavProfileImage = (CircleImageView) navView.findViewById(R.id.nav_profile_image);
         NavProfileUserName = (TextView) navView.findViewById(R.id.nav_user_full_name);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        discoverCard = (CardView)findViewById(R.id.discoverCard);
+        serviceCard = (CardView)findViewById(R.id.serviceCard);
+        aboutusCard = (CardView)findViewById(R.id.aboutUsCard);
+        nearByCard = (CardView)findViewById(R.id.nearByCard);
+        topPlacesCard = (CardView)findViewById(R.id.topPlacesCard);
+        diaryCard = (CardView)findViewById(R.id.travelDiaryCard);
+
+        discoverCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,DiscoverActivity.class));
+            }
+        });
+        serviceCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,ServicesActivity.class));
+            }
+        });
+        nearByCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,MapsActivity.class));
+            }
+        });
+        topPlacesCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,TopPlacesActivity.class));
+            }
+        });
+        diaryCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,MemoryActivity.class));
+            }
+        });
+
+
 
 
 
@@ -117,11 +162,15 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.nav_logout:
-
+                methodLogout();
                 break;
 
         }
 
+    }
+
+    private void methodLogout(){
+        mAuth.signOut();
     }
 
 

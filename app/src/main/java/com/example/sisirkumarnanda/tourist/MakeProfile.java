@@ -83,7 +83,8 @@ public class MakeProfile extends AppCompatActivity {
                     if(filePath==null)
                     {
                         final DatabaseReference databaseReference = firebaseDatabase.getReference();
-                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(userRegistration);  Intent intent  = new Intent(getApplicationContext(),MapsActivity.class);
+                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(userRegistration);
+                        Intent intent  = new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent);
                         finish();
                     }else{
@@ -139,7 +140,7 @@ public class MakeProfile extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(MakeProfile.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                            Intent intent  = new Intent(getApplicationContext(),MapsActivity.class);
+                            Intent intent  = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
