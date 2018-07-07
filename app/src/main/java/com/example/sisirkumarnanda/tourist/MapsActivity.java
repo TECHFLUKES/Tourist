@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     MyGoogleAPIService myGoogleAPIService;
     MyPlaces currentPlace;
 
-    //Here we get the new location
+    //Here we get the new location o
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationCallback locationCallback;
     private LocationRequest mLocationRequest;
@@ -85,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Now to request runtime permission
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkingLocationPermission();
+            Log.e("Hello", "Darling");
         }
 
         //Below code was for the recycler view
