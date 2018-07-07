@@ -4,4 +4,9 @@
     <string name="title_activity_view_directions_route">Map</string>
     <string name="title_activity_view_directions_top_places">Map</string>
     <string name="title_activity_memory">Map</string>
+    <string-array name="cause">
+        <item>Vacation</item>
+        <item>Work</item>
+        <item>Other</item>
+    </string-array>
 </resources>

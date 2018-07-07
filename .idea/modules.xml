@@ -3,11 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://C:\Users\SISIR KUMAR NANDA\Documents\Tourist\RajTour.iml" filepath="C:\Users\SISIR KUMAR NANDA\Documents\Tourist\RajTour.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tourism.iml" filepath="$PROJECT_DIR$/Tourism.iml" />
       <module fileurl="file://C:\RajHack5.0\RajTour\Tourism.iml" filepath="C:\RajHack5.0\RajTour\Tourism.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Tourist.iml" filepath="$PROJECT_DIR$/Tourist.iml" />
       <module fileurl="file://C:\Hackathon5.0\Tourism\Tourist.iml" filepath="C:\Hackathon5.0\Tourism\Tourist.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Hackathon5.0\Tourism\app\app.iml" filepath="C:\Hackathon5.0\Tourism\app\app.iml" />
     </modules>
   </component>
 </project>

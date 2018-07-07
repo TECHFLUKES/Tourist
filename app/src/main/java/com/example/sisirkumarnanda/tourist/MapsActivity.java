@@ -27,13 +27,18 @@ import com.example.sisirkumarnanda.tourist.Model.MyPlaces;
 import com.example.sisirkumarnanda.tourist.Model.Results;
 import com.example.sisirkumarnanda.tourist.RemoteServices.MyGoogleAPIService;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -54,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int PERMISSION_CODE = 1000;
     private GoogleMap mMap;
 
-
+    private Button findplace;
     private double latitude;
     private double longitude;
     private Location lastLocation;
@@ -81,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myGoogleAPIService = Common.myGoogleAPIService();
 
         //locationSelector = (Button)findViewById(R.id.locationSelector);
+        findplace = findViewById(R.id.findPlace);
 
         //Now to request runtime permission
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -138,7 +144,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationProviderClient.requestLocationUpdates(mLocationRequest,locationCallback, Looper.myLooper());
 
-
+        findplace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    findPlace(v);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
 
@@ -286,6 +302,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             break;
         }
     }
+    public void findPlace (View v) throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
+        Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(this);
+        startActivityForResult(intent,0);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
+        switch (requestCode){
+            case 0:
+                if(resultCode==RESULT_OK)
+                {
+
+                    Place place = PlaceAutocomplete.getPlace(getApplicationContext(), data);
+
+                    //Log.e("Places", place.getLatLng().toString());
+                    LatLng latLng = place.getLatLng();
+                    Double destlatitue = latLng.latitude;
+                    Double destlongitude = latLng.longitude;
+                    String destLat = Double.toString(destlatitue);
+                    String destLong = Double.toString(destlongitude);
+                    //Log.e("Long",destLat+destLong);
+                    Intent intent = new Intent(this,ShowRoute.class);
+                    String srcLat = Double.toString(latitude);
+                    String srcLong = Double.toString(longitude);
+
+                    intent.putExtra("DestLat",destLat);
+                    intent.putExtra("DestLong",destLong);
+                    Log.e("destLat",destLat+','+destLong);
+
+                    intent.putExtra("srcLat",srcLat);
+                    intent.putExtra("srcLong",srcLong);
+                    Log.e("srcLat",srcLat+','+srcLong);
+                    startActivity(intent);
+
+
+
+                }else if(resultCode==PlaceAutocomplete.RESULT_ERROR)
+                {
+                    Log.e("COmming","Here");
+                    Status status = PlaceAutocomplete.getStatus(getApplicationContext(),data);
+                    Log.e("Error",status.getStatusMessage());
+                }
+
+        }
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
