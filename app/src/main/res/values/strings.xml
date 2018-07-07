@@ -4,9 +4,14 @@
     <string name="title_activity_view_directions_route">Map</string>
     <string name="title_activity_view_directions_top_places">Map</string>
     <string name="title_activity_memory">Map</string>
+
     <string-array name="cause">
         <item>Vacation</item>
         <item>Work</item>
         <item>Other</item>
     </string-array>
+=======
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+>>>>>>> Stashed changes
 </resources>
